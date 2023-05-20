@@ -1,0 +1,4 @@
+<po-page-default p-title="Consulta Protheus SQL" [p-actions]="getPageAction()">
+  <app-edit-area (textChange)="onTextChanged($event)"></app-edit-area>
+  <app-result [columns]="columns" [items]="items"></app-result>
+</po-page-default>
