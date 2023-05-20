@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpGenericsService } from './services/httpgenerics.service';
-import { PoTableColumn } from '@po-ui/ng-components';
+import { PoNotificationService, PoTableColumn } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-sql-editor',
@@ -9,14 +9,15 @@ import { PoTableColumn } from '@po-ui/ng-components';
 })
 export class SqlEditorComponent {
 
-  constructor(private httpGenericsService: HttpGenericsService) { }
+  constructor(private httpGenericsService: HttpGenericsService, private poNotification: PoNotificationService) { }
 
   consultText: string = '';
   columns: Array<PoTableColumn> = [];
   items: Array<any> = [];
+  isLoading: boolean = false;
 
-  onTextChanged(texto: string) {
-    this.consultText = texto;
+  onTextChanged(text: string) {
+    this.consultText = text;
   }
 
   getPageAction() {
@@ -28,18 +29,22 @@ export class SqlEditorComponent {
   }
 
   reset() {
-    this.consultText = '';
+    this.consultText = "";
   }
 
   send() {
+    this.isLoading = true;
     this.httpGenericsService.getResult().subscribe({
       next: ({ columns, items }: { columns: PoTableColumn[], items: any[] }) => {
         this.columns = columns;
         this.items = items;
         // Coloque aqui a lógica adicional que você deseja executar após receber as colunas e os itens
+        this.isLoading = false;
+        this.poNotification.success('Connection established successfully!');
       },
       error: (err: any) => {
         console.log(err);
+        this.isLoading = false;
       }
     });
   }

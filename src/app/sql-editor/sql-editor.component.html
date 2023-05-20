@@ -1,4 +1,5 @@
 <po-page-default p-title="Consulta Protheus SQL" [p-actions]="getPageAction()">
-  <app-edit-area (textChange)="onTextChanged($event)"></app-edit-area>
+  <po-loading-overlay *ngIf="isLoading"></po-loading-overlay>
+  <app-edit-area (textChange)="onTextChanged($event)" [consultText]="consultText"></app-edit-area>
   <app-result [columns]="columns" [items]="items"></app-result>
 </po-page-default>
