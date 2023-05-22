@@ -12,6 +12,12 @@ const routes: Routes = [
     loadChildren: () => import('./sql-editor/sql-editor.module')
       .then(m => m.SqlEditorModule)
   }
+  // },
+  // {
+  //   path: 'index.html',
+  //   loadChildren: () => import('./login/login.module')
+  //     .then(m => m.LoginModule)
+  // }
 ];
 
 @NgModule({
