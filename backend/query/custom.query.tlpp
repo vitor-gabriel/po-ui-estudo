@@ -1,0 +1,87 @@
+#INCLUDE "TLPP-CORE.TH"
+#INCLUDE "TLPP-REST.TH"
+#INCLUDE "TOTVS.CH"
+
+namespace custom.sqleditor.executor
+
+@GET("/api/v1/execute")
+User Function sqlExecute()
+	Local aColumns  as Array
+	Local aItems    as Array
+	Local aStruct   as Array
+	Local cAlias    as Character
+	Local jRequest  as Json
+	Local jResponse as Json
+	Local nI        as Integer
+
+	aColumns  := {}
+	aItems    := {}
+	jResponse := JsonObject():new()
+	oRest:setKeyHeaderResponse("Content-Type","application/json")
+	TRY
+		jRequest := oRest:getQueryRequest()
+		If !jRequest:hasProperty('query')
+			oRest:setFault('{"Bad Request":"Invalid request"}')
+			oRest:setStatusCode(400)
+			Return
+		EndIf
+
+		cAlias := MPSysOpenQuery(jRequest['query'])
+		aStruct := (cAlias)->(DBStruct())
+		For nI := 1 to Len(aStruct)
+			AAdd(aColumns, JsonObject():New())
+			aColumns[nI]['property'] := Lower(aStruct[nI][1])
+			aColumns[nI]['label']    := AllTrim(GetSx3Cache(aStruct[nI][1],"X3_TITULO"))
+			aColumns[nI]['type']     := validTypeInStruct(aStruct[nI][2])
+		Next
+
+		While (cAlias)->(!Eof())
+			AAdd(aItems,JsonObject():New())
+			For nI := 1 to Len(aStruct)
+				If aStruct[nI][2] == "C" .Or. aStruct[nI][2] == "M"
+					aItems[Len(aItems)][Lower(aStruct[nI][1])] := AllTrim((cAlias)->&(Upper(aStruct[nI][1])))
+				ElseIf aStruct[nI][2] == "N"
+					aItems[Len(aItems)][Lower(aStruct[nI][1])] := (cAlias)->&(Upper(aStruct[nI][1]))
+				ElseIf aStruct[nI][2] == "D"
+					aItems[Len(aItems)][Lower(aStruct[nI][1])] := DToS((cAlias)->&(Upper(aStruct[nI][1])))
+				EndIf
+			Next
+			(cAlias)->(DbSkip())
+		EndDo
+
+		jResponse['columns'] := aColumns
+		jResponse['items']   := aItems
+
+		oRest:setResponse(jResponse:toJson())
+		oRest:setStatusCode(200)
+
+		(cAlias)->(DbCloseArea())
+	CATCH oError
+		oRest:setFault('{"message":"Invalid Query"}')
+		Return .F.
+	ENDTRY
+
+Return
+
+/*/{Protheus.doc} validTypeInStruct
+Função que valida o tipo de campo da estrutura
+@type function
+@version 12.1.33
+@author Vitor
+@since 23/05/2023
+@param cTypeField, character, campo da estrutura
+@return character, tipo do campo
+/*/
+Static Function validTypeInStruct(cTypeField as Character) as Character
+
+	If cTypeField == 'C'
+		Return 'string'
+	ElseIf cTypeField == 'N'
+		Return 'number'
+	ElseIf cTypeField == 'D'
+		Return 'date'
+	ElseIf cTypeField == "M"
+		Return 'string'
+	EndIf
+
+Return 'string'

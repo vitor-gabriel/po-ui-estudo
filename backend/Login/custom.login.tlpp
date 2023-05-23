@@ -1,0 +1,35 @@
+#INCLUDE "TLPP-CORE.TH"
+#INCLUDE "TLPP-REST.TH"
+
+namespace custom.core.auth
+
+
+/*/{Protheus.doc} validateLogin
+valida o login do usuario e salva na sessao o token de acesso
+@type function
+@version  12.1.33
+@author Vitor
+@since 23/05/2023
+@return logical, sempre retorna true
+/*/@POST("/api/v1/login")
+User Function validateLogin()
+	Local jHeaders as Json
+	Local jRequest as Json
+	Local cBody as Character
+
+	jRequest := JsonObject():New()
+	jHeaders := oRest:getHeaderRequest()
+	cBody    := oRest:getBodyRequest()
+	jRequest:FromJson(cBody)
+
+	oRest:setKeyHeaderResponse("Content-Type","application/json")
+
+	If !jRequest:hasProperty('rememberUser')
+		oRest:setFault('{"Bad Request":"Invalid Request"}')
+		oRest:setStatusCode(400)
+		Return .T.
+	EndIf
+
+	oRest:setResponse('{"token":"'+jHeaders['Authorization']+'"}')
+
+Return .T.
