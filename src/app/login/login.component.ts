@@ -28,7 +28,6 @@ export class LoginComponent {
         }, 500);
       },
       error: (err: any) => {
-        console.log(err);
         this.isLoading = false;
       }
     });
