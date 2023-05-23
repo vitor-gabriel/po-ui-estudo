@@ -26,4 +26,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 1- API Protheus em construção para carregar os campos dinamicamente ao clicar no `Executar`.
 
-2- Modal de loading enquanto espera o result da API.
+2- API Protheus para Login
