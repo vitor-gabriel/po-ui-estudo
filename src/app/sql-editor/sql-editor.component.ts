@@ -32,16 +32,16 @@ export class SqlEditorComponent {
 
   send() {
     this.isLoading = true;
-    this.httpGenericsService.getResult().subscribe({
+    this.httpGenericsService.getResult(this.getTextSelection() || this.consultText).subscribe({
       next: ({ columns, items }: { columns: PoTableColumn[], items: any[] }) => {
         this.columns = columns;
         this.items = items;
         // Coloque aqui a lógica adicional que você deseja executar após receber as colunas e os itens
         this.isLoading = false;
-        this.poNotification.success('Connection established successfully!');
+        this.poNotification.success('Request procedeed!');
       },
       error: (err: any) => {
-        console.log(err);
+        this.poNotification.error('Request Invalid! => ' + err.error.message);
         this.isLoading = false;
       }
     });
@@ -53,13 +53,22 @@ export class SqlEditorComponent {
 
   exit() {
     this.isLoading = true;
-    sessionStorage.removeItem('PO_USER_LOGIN');
+    sessionStorage.removeItem('token');
     setTimeout(() => {
       this.isLoading = false;
       this.poNotification.success('Logout successfully!');
-      this.route.navigate(['index.html/login']);
-    }, 1000);
+      this.route.navigate(['index.html']);
+    }, 500);
 
+  }
+
+  getTextSelection(): string {
+    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+    if (textarea) {
+      const selection: string = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+      return selection;
+    }
+    return '';
   }
 
 }
