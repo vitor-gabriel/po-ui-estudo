@@ -1,10 +1,8 @@
 # Query PoUi Protheus
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.5.
 
-# Database
-
-Utilize o [json-server](https://www.npmjs.com/package/json-server) para subir a API json dentro de: `./assets/mock-database`.
+###### Projeto Finalizado!
 
 ## Development server
 
@@ -21,5 +19,3 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-###### Projeto Finalizado!
