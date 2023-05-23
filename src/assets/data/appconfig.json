@@ -1,0 +1,5 @@
+{
+    "name": "Query Protheus",
+    "version": "1.2.7",
+    "api_baseUrl": "/rest"
+}
