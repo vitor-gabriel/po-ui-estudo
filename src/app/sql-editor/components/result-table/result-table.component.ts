@@ -13,8 +13,3 @@ export class ResultComponent {
   @Input() items: Array<any> = [];
 
 }
-
-
-
-
-
