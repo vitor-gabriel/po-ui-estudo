@@ -5,11 +5,11 @@ import { AuthGuard } from './core/auth-guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'index.html/sqleditor',
+    redirectTo: 'index.html',
     pathMatch: 'full'
   },
   {
-    path: 'index.html/login',
+    path: 'index.html',
     loadChildren: () => import('./login/login.module')
       .then(m => m.LoginModule)
   },
