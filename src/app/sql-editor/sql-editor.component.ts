@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpGenericsService } from './services/httpgenerics.service';
+import { HttpGenericsService } from '../core/services/httpgenerics.service';
 import { PoNotificationService, PoTableColumn } from '@po-ui/ng-components';
 import { Router } from '@angular/router';
 
