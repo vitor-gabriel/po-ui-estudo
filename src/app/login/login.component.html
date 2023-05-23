@@ -1,1 +1,3 @@
-<po-page-login [p-authentication-type]="basic" [p-authentication-url]="loginURL"></po-page-login>
+<po-page-login (p-login-submit)="checkLogin($event)" [p-loading]="isLoading" [p-background]="background"
+    p-product-name="SQL Query Protheus by VRosa" p-contact-emai="mailto:vitor@r2vkconsultoria.com.br"
+    p-support="https://www.linkedin.com/in/vitor-gabriell/"></po-page-login>

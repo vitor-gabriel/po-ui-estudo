@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { PoPageLoginAuthenticationType } from '@po-ui/ng-templates';
-import { environment } from 'src/environments/environment';
+import { HttpGenericsService } from '../core/services/httpgenerics.service';
+import { PoNotificationService } from '@po-ui/ng-components';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,28 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent {
 
-  basic: PoPageLoginAuthenticationType = PoPageLoginAuthenticationType.Basic;
-  loginURL: string = environment.baseURL + 'login';
-  teste: boolean = true;
+  isLoading: boolean = false;
+  background: string = "./assets/images/login-background.png"
 
-  constructor() { }
+  constructor(private httpGenericsService: HttpGenericsService, private poNotification: PoNotificationService, private route: Router) { }
 
+  checkLogin(formData: any) {
+
+    this.isLoading = true;
+    this.httpGenericsService.login(formData).subscribe({
+      next: (formData: any) => {
+        setTimeout(() => {
+          sessionStorage.setItem('token', formData.token);
+          this.isLoading = false;
+          this.poNotification.success('Logged successfully!');
+          this.route.navigate(['index.html/sqleditor']);
+        }, 500);
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.isLoading = false;
+      }
+    });
+    this.isLoading = false;
+  }
 }
