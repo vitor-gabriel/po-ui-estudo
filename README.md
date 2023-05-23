@@ -22,8 +22,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-#### TODO
-
-1- API Protheus em construção para carregar os campos dinamicamente ao clicar no `Executar`.
-
-2- API Protheus para Login
+###### Projeto Finalizado!
