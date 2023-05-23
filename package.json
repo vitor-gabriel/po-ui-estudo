@@ -1,6 +1,6 @@
 {
-  "name": "po-ui-estudo",
-  "version": "0.0.0",
+  "name": "query-protheus",
+  "version": "1.2.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
