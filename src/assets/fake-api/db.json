@@ -47,5 +47,8 @@
         "group": "0003"
       }
     ]
+  },
+  "login": {
+    "rememberUser": false
   }
 }
