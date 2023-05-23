@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/auth-guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'index.html',
+    redirectTo: 'index.html/sqleditor',
     pathMatch: 'full'
   },
   {
-    path: 'index.html',
+    path: 'index.html/login',
+    loadChildren: () => import('./login/login.module')
+      .then(m => m.LoginModule)
+  },
+  {
+    path: 'index.html/sqleditor',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./sql-editor/sql-editor.module')
       .then(m => m.SqlEditorModule)
   }
-  // },
-  // {
-  //   path: 'index.html',
-  //   loadChildren: () => import('./login/login.module')
-  //     .then(m => m.LoginModule)
-  // }
 ];
 
 @NgModule({
